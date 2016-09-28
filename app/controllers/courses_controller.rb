@@ -7,6 +7,49 @@ class CoursesController < ApplicationController
   before_action :set_organization
   before_action :set_course, except: [:help, :index, :show_json]
 
+  include Swagger::Blocks
+
+  swagger_path '/org/{organization_id}/courses.json' do
+    operation :get do
+      key :description, 'Returns a list of courses'
+      key :produces, [
+        'application/json',
+        'text/html',
+      ]
+      parameter '$ref': '#/parameters/api_version'
+      parameter '$ref': '#/parameters/client_name'
+      parameter '$ref': '#/parameters/client_version'
+      parameter '$ref': '#/parameters/organization_id'
+      response 200 do
+        key :description, 'list of course IDs'
+        schema do
+          key :type, :array
+          items do
+            key :type, :integer
+          end
+        end
+      end
+      response 401 do
+        key :description, 'User is not authenticated!'
+        schema do
+          key :type, :array
+          items do
+            key :type, :string
+          end
+        end
+      end
+      response 404 do
+        key :description, 'No API version received from client'
+        schema do
+          key :type, :array
+          items do
+            key :type, :string
+          end
+        end
+      end
+    end
+  end
+
   skip_authorization_check only: [:index]
 
   def index
