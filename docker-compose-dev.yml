@@ -24,3 +24,7 @@ services:
     depends_on:
       - db
       - sandbox
+    # allow running binding.pry for debugging
+    # see http://stackoverflow.com/questions/31669226/rails-byebug-did-not-stop-application
+    stdin_open: true
+    tty: true
