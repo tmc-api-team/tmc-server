@@ -6,7 +6,7 @@ require 'exercise_completion_status_generator'
 class Api::V7::CoursesController < Api::V7::BaseController
   include Swagger::Blocks
 
-  swagger_path '/org/organization_id/courses.json' do
+  swagger_path '/org/{organization_id}/courses.json' do
     operation :get do
       key :description, 'Returns all of the organization\'s courses visible to the user in a json format'
       key :operationId, 'findCourses'
@@ -16,6 +16,13 @@ class Api::V7::CoursesController < Api::V7::BaseController
       key :tags, [
         'course'
       ]
+      parameter do
+        key :name, :organization_id
+        key :in, :path
+        key :description, 'Organization\'s id'
+        key :required, true
+        key :type, :string
+      end
       response 200 do
         key :description, 'Courses in json'
         schema do
