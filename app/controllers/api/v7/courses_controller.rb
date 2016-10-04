@@ -16,26 +16,50 @@ class Api::V7::CoursesController < Api::V7::BaseController
       key :tags, [
         'course'
       ]
-      parameter do
-        key :name, :organization_id
-        key :in, :path
-        key :description, 'Organization\'s id'
-        key :required, true
-        key :type, :string
-      end
+      parameter '$ref': '#/parameters/path_organization_id'
+      response 401, '$ref': '#/responses/error'
       response 200 do
         key :description, 'Courses in json'
         schema do
+          allOf do
+            schema do
+              key :title, :api_version
+              key :type, :integer
+            end
+            schema do
+              key :title, :courses
+              key :type, :array
+              items do
+                key :'$ref', :Course
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  swagger_path '/api/v7/org/{organization_id}/courses/{course_id}.json' do
+    operation :get do
+      key :description, 'Returns the course\'s information in a json format'
+      key :operationId, 'showCourse'
+      key :produces, [
+        'application/json'
+      ]
+      key :tags, [
+        'course'
+      ]
+      parameter '$ref': '#/parameters/path_course_id'
+      parameter '$ref': '#/parameters/path_organization_id'
+      response 401, '$ref': '#/responses/error'
+      response 200 do
+        key :description, 'Courses in json'
+        schema do
+        key :title, :courses
           key :type, :array
           items do
             key :'$ref', :Course
           end
-        end
-      end
-      response :default do
-        key :description, 'Authentication required'
-        schema do
-          key :type, :string
         end
       end
     end
@@ -69,31 +93,31 @@ class Api::V7::CoursesController < Api::V7::BaseController
     end
   end
 
-#   def show
-#     if session[:refresh_report]
-#       @refresh_report = session[:refresh_report]
-#       session.delete(:refresh_report)
-#     end
-#
-#     authorize! :read, @course
-#     UncomputedUnlock.resolve(@course, current_user)
-#
-#     respond_to do |format|
-#       format.html do
-#         assign_show_view_vars
-#         add_course_breadcrumb
-#       end
-#       format.json do
-#         return respond_access_denied('Authentication required') if current_user.guest?
-#         opts = {include_points: !!params[:show_points], include_unlock_conditions: !!params[:show_unlock_conditions]}
-#         data = {
-#           api_version: ApiVersion::API_VERSION,
-#           course: CourseInfo.new(current_user, view_context).course_data(@organization, @course, opts)
-#         }
-#         render json: data.to_json
-#       end
-#     end
-#   end
+  def show
+    if session[:refresh_report]
+      @refresh_report = session[:refresh_report]
+      session.delete(:refresh_report)
+    end
+
+    authorize! :read, @course
+    UncomputedUnlock.resolve(@course, current_user)
+
+    respond_to do |format|
+      format.html do
+        assign_show_view_vars
+        add_course_breadcrumb
+      end
+      format.json do
+        return respond_access_denied('Authentication required') if current_user.guest?
+        opts = {include_points: !!params[:show_points], include_unlock_conditions: !!params[:show_unlock_conditions]}
+        data = {
+          api_version: ApiVersion::API_VERSION,
+          course: CourseInfo.new(current_user, view_context).course_data(@organization, @course, opts)
+        }
+        render json: data.to_json
+      end
+    end
+  end
 #
 #   # Method for teacher to give a single course for students to select.
 #   def show_json
@@ -232,14 +256,14 @@ class Api::V7::CoursesController < Api::V7::BaseController
 #       Submission.eager_load_exercises(@submissions)
 #     end
 #   end
-#
+
   def set_organization
     @organization = Organization.find_by(slug: params[:organization_id])
   end
-#
-#   def set_course
-#     @course = Course.find(params[:id])
-#   end
+
+  def set_course
+    @course = Course.find(params[:id])
+  end
 #
 #   def group_params
 #     sliced = params.slice(:group, :empty_group)

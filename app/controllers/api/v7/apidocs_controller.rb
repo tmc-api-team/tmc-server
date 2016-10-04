@@ -19,6 +19,31 @@ class Api::V7::ApidocsController < ActionController::Base
       key :name, 'api'
       key :description, 'API operations'
     end
+    parameter :path_organization_id do
+      key :name, :organization_id
+      key :in, :path
+      key :description, 'Organization\'s id'
+      key :required, true
+      key :type, :string
+    end
+    parameter :path_course_id do
+      key :name, :course_id
+      key :in, :path
+      key :description, 'Course\'s id'
+      key :required, true
+      key :type, :integer
+    end
+    response :error do
+      key :description, 'An error occurred'
+      schema do
+        key :title, :errors
+        key :description, 'A list of error messages'
+        key :type, :array
+        items do
+          key :type, :string
+        end
+      end
+    end
     key :host, 'localhost:3000'
     key :consumes, ['application/json']
     key :produces, ['application/json']
