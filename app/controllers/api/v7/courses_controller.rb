@@ -20,21 +20,17 @@ class Api::V7::CoursesController < Api::V7::BaseController
       response 401, '$ref': '#/responses/error'
       response 200 do
         key :description, 'Courses in json'
-        schema do
-          allOf do
             schema do
-              key :title, :api_version
-              key :type, :integer
-            end
-            schema do
-              key :title, :courses
-              key :type, :array
-              items do
-                key :'$ref', :Course
+              property :api_version do
+                key :type, :integer
+              end
+              property :courses do
+                key :type, :array
+                items do
+                  key :'$ref', :Course
+                end
               end
             end
-          end
-        end
       end
     end
   end
@@ -53,7 +49,7 @@ class Api::V7::CoursesController < Api::V7::BaseController
       parameter '$ref': '#/parameters/path_organization_id'
       response 401, '$ref': '#/responses/error'
       response 200 do
-        key :description, 'Courses in json'
+        key :description, 'Course\'s information in json'
         schema do
         key :title, :courses
           key :type, :array
