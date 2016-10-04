@@ -1,0 +1,23 @@
+version: '2'
+services:
+  db_dev:
+    image: postgres:9.4
+    volumes:
+      - ./pg-data:/var/lib/postgresql
+  web_dev:
+    build: .
+    entrypoint: ./dev-entry.sh
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db_dev
+      - HOST=$HOST
+      - SANDBOX_URL=$SANDBOX_URL
+    depends_on:
+      - db_dev
+    # allow running binding.pry for debugging
+    # see http://stackoverflow.com/questions/31669226/rails-byebug-did-not-stop-application
+    stdin_open: true
+    tty: true
