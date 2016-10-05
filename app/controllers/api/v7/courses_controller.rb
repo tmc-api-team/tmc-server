@@ -21,6 +21,8 @@ class Api::V7::CoursesController < Api::V7::BaseController
       response 200 do
         key :description, 'Courses in json'
             schema do
+              key :title, :courses
+              key :required, [:api_version]
               property :api_version do
                 key :type, :integer
               end
@@ -51,9 +53,12 @@ class Api::V7::CoursesController < Api::V7::BaseController
       response 200 do
         key :description, 'Course\'s information in json'
         schema do
-        key :title, :courses
-          key :type, :array
-          items do
+          key :title, :course
+          key :required, [:api_version, :course]
+          property :api_version do
+            key :type, :integer
+          end
+          property :course do
             key :'$ref', :Course
           end
         end
