@@ -20,19 +20,19 @@ class Api::V7::CoursesController < Api::V7::BaseController
       response 401, '$ref': '#/responses/error'
       response 200 do
         key :description, 'Courses in json'
-            schema do
-              key :title, :courses
-              key :required, [:api_version]
-              property :api_version do
-                key :type, :integer
-              end
-              property :courses do
-                key :type, :array
-                items do
-                  key :'$ref', :Course
-                end
-              end
+        schema do
+          key :title, :courses
+          key :required, [:api_version, :courses]
+          property :api_version do
+            key :type, :integer
+          end
+          property :courses do
+            key :type, :array
+            items do
+              key :'$ref', :Course
             end
+          end
+        end
       end
     end
   end
