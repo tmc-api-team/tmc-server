@@ -6,9 +6,9 @@ services:
     build: .
     entrypoint: ./entry.sh
     ports:
-      - "3030:3030"
+      - "3030-3050:3030-3050"
     expose:
-      - 3030
+      - 3030-3050
     environment:
       - RSPEC_PATTERN="spec/integration/utf8_exercise_spec.rb"
       - DB_HOST=db_test
