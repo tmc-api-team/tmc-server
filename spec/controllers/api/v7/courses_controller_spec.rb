@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CoursesController, type: :controller do
+describe Api::V7::CoursesController, type: :controller do
 
   before(:each) do
     @source_path = "#{@test_tmp_dir}/fake_source"
