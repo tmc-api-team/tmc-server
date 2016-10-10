@@ -15,12 +15,15 @@ describe Api::V7::CoursesController, type: :controller do
   end
 
   describe 'GET index' do
+    let(:token) { Doorkeeper::AccessToken.create!(:resource_owner_id => @admin.id).token }
+
     describe 'in JSON format' do
       def get_index_json(options = {})
         options = {
           format: 'json',
           api_version: ApiVersion::API_VERSION,
-          organization_id: @organization.slug
+          organization_id: @organization.slug,
+          access_token: token,
         }.merge options
         @request.env['HTTP_AUTHORIZATION'] = 'Basic ' + Base64.encode64("#{@user.login}:#{@user.password}")
         get :index, options
@@ -42,6 +45,8 @@ describe Api::V7::CoursesController, type: :controller do
   end
 
   describe 'GET show' do
+    let(:token) { Doorkeeper::AccessToken.create!(:resource_owner_id => @admin.id).token }
+
     before :each do
       @course = FactoryGirl.create(:course)
     end
@@ -59,7 +64,8 @@ describe Api::V7::CoursesController, type: :controller do
           format: 'json',
           api_version: ApiVersion::API_VERSION,
           id: @course.id.to_s,
-          organization_id: @organization.slug
+          organization_id: @organization.slug,
+          access_token: token,
         }.merge options
         @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, @user.password)
         get :show, options
