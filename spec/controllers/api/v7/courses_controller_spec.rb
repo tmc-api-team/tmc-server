@@ -15,7 +15,7 @@ describe Api::V7::CoursesController, type: :controller do
   end
 
   describe 'GET index' do
-    let(:token) { Doorkeeper::AccessToken.create!(:resource_owner_id => @admin.id).token }
+    let(:token) { Doorkeeper::AccessToken.create!(:resource_owner_id => @user.id).token }
 
     describe 'in JSON format' do
       def get_index_json(options = {})
@@ -45,7 +45,7 @@ describe Api::V7::CoursesController, type: :controller do
   end
 
   describe 'GET show' do
-    let(:token) { Doorkeeper::AccessToken.create!(:resource_owner_id => @admin.id).token }
+    let(:token) { Doorkeeper::AccessToken.create!(:resource_owner_id => @user.id).token }
 
     before :each do
       @course = FactoryGirl.create(:course)
