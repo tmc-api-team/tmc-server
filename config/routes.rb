@@ -44,6 +44,8 @@ TmcServer::Application.routes.draw do
       resources :organizations, except: [:destroy, :create, :edit, :update], path: 'org' do
         resources :courses, except: [:new, :create]
       end
+      resources :exercises, only: [:show]
+      get '/exercises/:id.zip', to: 'exercises#show', format: 'zip'
     end
   end
 
