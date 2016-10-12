@@ -33,6 +33,13 @@ class Api::V7::ApidocsController < ActionController::Base
       key :required, true
       key :type, :integer
     end
+    parameter :path_exercise_id do
+      key :name, :exercise_id
+      key :in, :path
+      key :description, 'Exercise\'s id'
+      key :required, true
+      key :type, :integer
+    end
     response :error do
       key :description, 'An error occurred'
       schema do
@@ -52,6 +59,7 @@ class Api::V7::ApidocsController < ActionController::Base
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
     CoursesController,
+    ExercisesController,
     self,
   ].freeze
 

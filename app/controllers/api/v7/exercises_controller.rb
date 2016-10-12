@@ -2,7 +2,18 @@ class Api::V7::ExercisesController < Api::V7::BaseController
   include Swagger::Blocks
 
   swagger_path '/exercises/{exercise.id}.zip' do
-
+    operation :get do
+      key :description, 'Starts to download the exercise in zip format'
+      key :operationId, 'downloadExercise'
+      key :tags, [
+        'exercise'
+      ]
+      parameter '$ref': '#/parameters/path_exercise_id'
+      response 401, '$ref': '#/responses/error'
+      response 200 do
+        key :description, 'download exercise as zip'
+      end
+    end
   end
 
   def show
@@ -11,7 +22,7 @@ class Api::V7::ExercisesController < Api::V7::BaseController
     @organization = @course.organization
     authorize! :read, @course
     authorize! :read, @exercise
-    #binding.pry
+
     respond_to do |format|
       format.zip do
         authorize! :download, @exercise
