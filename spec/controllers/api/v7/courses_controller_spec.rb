@@ -23,7 +23,7 @@ describe Api::V7::CoursesController, type: :controller do
           format: 'json',
           api_version: ApiVersion::API_VERSION,
           organization_id: @organization.slug,
-          access_token: token,
+          access_token: token
         }.merge options
         @request.env['HTTP_AUTHORIZATION'] = 'Basic ' + Base64.encode64("#{@user.login}:#{@user.password}")
         get :index, options
@@ -65,7 +65,7 @@ describe Api::V7::CoursesController, type: :controller do
           api_version: ApiVersion::API_VERSION,
           id: @course.id.to_s,
           organization_id: @organization.slug,
-          access_token: token,
+          access_token: token
         }.merge options
         @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, @user.password)
         get :show, options
@@ -131,16 +131,15 @@ describe Api::V7::CoursesController, type: :controller do
       end
 
       describe 'and no user given' do
-        pending "update to check oauth token"
-        # it 'should respond with a 401' do
-        #   controller.current_user = Guest.new
-        #   get_show_json({ api_username: nil, api_password: nil }, false)
-        #   expect(response.code.to_i).to eq(401)
-        # end
+        it 'should respond with a 401' do
+          controller.current_user = Guest.new
+          get_show_json({ api_username: nil, api_password: nil }, false)
+          expect(response.code.to_i).to eq(401)
+        end
       end
 
       describe 'and the given user does not exist' do
-        pending "update to check oauth token"
+        pending "not working as it should, gives 404 not 401"
         # before :each do
         #   @user.destroy
         # end
