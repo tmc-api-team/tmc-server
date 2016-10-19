@@ -13,11 +13,10 @@ describe Api::V7::ExercisesController, type: :controller do
 
       @course.refresh
     end
-    let!(:exercise) { FactoryGirl.create(:exercise, course: @course) }
 
     describe 'with .zip format' do
       it 'should offer the exercise as a downloadable zip', driver: :rack_test do
-        visit '/api/v7/exercises/1.zip'
+        visit "/api/v7/exercises/#{@course.exercises.find_by(name: "MyExercise").id}.zip"
 
         File.open('MyExercise.zip', 'wb') { |f| f.write(page.source) }
         system!('unzip -qq MyExercise.zip')
