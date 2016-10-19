@@ -58,12 +58,13 @@ class Api::V7::ApidocsController < ActionController::Base
 
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
-    CoursesController,
-    ExercisesController,
-    Course,
-    AvailablePoint,
-    Exercise,
-    self,
+      CoursesController,
+      ExercisesController,
+      SolutionsController,
+      Course,
+      AvailablePoint,
+      Exercise,
+      self,
   ].freeze
 
   def index
