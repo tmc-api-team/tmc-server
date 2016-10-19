@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'fileutils'
 
 describe Api::V7::ExercisesController, type: :controller do
   describe 'GET show' do
@@ -26,6 +27,10 @@ describe Api::V7::ExercisesController, type: :controller do
         expect(File).to exist('MyExercise/test/SimpleTest.java')
         expect(File).not_to exist('MyExercise/test/SimpleHiddenTest.java')
       end
+    end
+
+    after :all do
+      FileUtils.rm_rf('test_tmp_dir')
     end
   end
 end
