@@ -5,6 +5,86 @@ require 'date_and_time_utils'
 
 class Course < ActiveRecord::Base
   include SystemCommands
+  include Swagger::Blocks
+
+  swagger_schema :CourseList do
+    key :required, [:id, :name, :title, :details_url, :unlock_url, :reviews_url, :comet_url, :spyware_urls]
+    property :id, type: :integer, example: 1
+    property :name, type: :string, example: "222-testcourse"
+    property :title, type: :string, example: "testcourse"
+    property :details_url, type: :string, example: "http://localhost:3000/org/222/courses/1.json"
+    property :unlock_url, type: :string, example: "http://localhost:3000/org/222/courses/1/unlock.json"
+    property :reviews_url, type: :string, example: "http://localhost:3000/org/222/courses/1/reviews.json"
+    property :comet_url, type: :string, example: "http://localhost:8080/comet"
+    property :spyware_urls, type: :array do
+      items do
+        key :type, :string
+        key :example, "http://localhost:3101/"
+      end
+    end
+    property :points do
+      key :required, [:sheets, :total_available]
+      property :sheets, type: :array do
+        items do
+          key :'$ref', :AvailablePoint
+        end
+      end
+      property :total_available, type: :integer, example: 1
+    end
+    # Should document the structure: {"unlock_conditions": [[{ "name": "trivial", "conditions": [] }]]}
+    # property :unlock_conditions, type: :array do
+    #   items type: :array do
+    #     items type: :object do
+    #       property :name, type: :string, example: "trivial"
+    #       property :conditions, type: :array do
+    #         items type: :string
+    #       end
+    #     end
+    #   end
+    # end
+  end
+
+  swagger_schema :CourseInfo do
+    key :required, [:id, :name, :title, :details_url, :unlock_url, :reviews_url, :comet_url, :spyware_urls, :exercises]
+    property :id, type: :integer, example: 1
+    property :name, type: :string, example: "222-testcourse"
+    property :title, type: :string, example: "testcourse"
+    property :details_url, type: :string, example: "http://localhost:3000/org/222/courses/1.json"
+    property :unlock_url, type: :string, example: "http://localhost:3000/org/222/courses/1/unlock.json"
+    property :reviews_url, type: :string, example: "http://localhost:3000/org/222/courses/1/reviews.json"
+    property :comet_url, type: :string, example: "http://localhost:8080/comet"
+    property :spyware_urls, type: :array do
+      items do
+        key :type, :string
+        key :example, "http://localhost:3101/"
+      end
+    end
+    property :points do
+      key :required, [:sheets, :total_available]
+      property :sheets, type: :array do
+        items do
+          key :'$ref', :AvailablePoint
+        end
+      end
+      property :total_available, type: :integer, example: 1
+    end
+    # Should document the structure: {"unlock_conditions": [[{ "name": "trivial", "conditions": [] }]]}
+    # property :unlock_conditions, type: :array do
+    #   items type: :array do
+    #     items type: :object do
+    #       property :name, type: :string, example: "trivial"
+    #       property :conditions, type: :array do
+    #         items type: :string
+    #       end
+    #     end
+    #   end
+    # end
+    property :exercises, type: :array do
+      items do
+        key :'$ref', :Exercise
+      end
+    end
+  end
 
   self.include_root_in_json = false
 

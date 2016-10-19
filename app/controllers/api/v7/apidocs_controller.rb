@@ -60,6 +60,9 @@ class Api::V7::ApidocsController < ActionController::Base
   SWAGGERED_CLASSES = [
     CoursesController,
     ExercisesController,
+    Course,
+    AvailablePoint,
+    Exercise,
     self,
   ].freeze
 

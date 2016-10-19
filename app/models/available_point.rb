@@ -4,6 +4,15 @@
 # Instead they are always searched for (course_id, name).
 class AvailablePoint < ActiveRecord::Base
   include PointComparison
+  include Swagger::Blocks
+
+  swagger_schema :AvailablePoint do
+      key :required, [:name, :total_available]
+      property :name, type: :string, example: :root
+      property :total_available do
+        property :'<name>', type: :integer, example: 1
+      end
+  end
 
   belongs_to :exercise
   has_one :course, through: :exercise

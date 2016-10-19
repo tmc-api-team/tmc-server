@@ -2,6 +2,46 @@ require 'shellwords'
 
 class Exercise < ActiveRecord::Base
   self.include_root_in_json = false
+  include Swagger::Blocks
+
+  swagger_schema :Exercise do
+    key :required, [
+      :id, :name, :locked, :deadline_description, :deadline, :checksum,
+      :return_url, :zip_url, :returnable, :requires_review,
+      :valgrind_strategy, :code_review_requests_enabled,
+      :run_tests_locally_action_enabled, :solution_zip_url,
+      :exercise_submissions_url, :latest_submission_url,
+      :latest_submission_id,
+    ]
+
+    property :id, type: :integer, example: 1
+    property :name, type: :string, example: "trivial"
+    property :locked, type: :boolean, example: false
+    property :deadline_description, type: :string, description: "Can be null"
+    property :deadline, type: :string
+    property :checksum, type: :string, example: "2f2bed191870eee69661119209fd33ee"
+    property :return_url, type: :string, example: "http://localhost:3000/exercises/1/submissions.json"
+    property :zip_url, type: :string, example: "http://localhost:3000/exercises/1.zip"
+    property :returnable, type: :boolean, example: true
+    property :requires_review, type: :boolean, example: false
+    property :attempted, type: :boolean, example: false
+    property :completed, type: :boolean, example: false
+    property :reviewed, type: :boolean, example: false
+    property :all_review_points_given, type: :boolean, example: true
+    property :memory_limit, type: :integer
+    property :runtime_params, type: :array do
+      items do
+        key :type, :string
+      end
+    end
+    property :valgrind_strategy, type: :string, example: "fail"
+    property :code_review_requests_enabled, type: :boolean, example: true
+    property :run_tests_locally_action_enabled, type: :boolean, example: true
+    property :solution_zip_url, type: :string, example: "http://localhost:3000/exercises/1/solution.zip"
+    property :exercise_submissions_url, type: :string, example: "http://localhost:3000/exercises/1.json?api_version=7"
+    property :latest_submission_url, type: :string
+    property :latest_submission_id, type: :string
+  end
 
   belongs_to :course
 

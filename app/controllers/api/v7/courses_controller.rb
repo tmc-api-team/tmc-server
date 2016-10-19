@@ -23,13 +23,11 @@ class Api::V7::CoursesController < Api::V7::BaseController
         schema do
           key :title, :courses
           key :required, [:api_version, :courses]
-          property :api_version do
-            key :type, :integer
-          end
+          property :api_version, type: :integer, example: 7
           property :courses do
             key :type, :array
             items do
-              key :'$ref', :Course
+              key :'$ref', :CourseList
             end
           end
         end
@@ -55,12 +53,8 @@ class Api::V7::CoursesController < Api::V7::BaseController
         schema do
           key :title, :course
           key :required, [:api_version, :course]
-          property :api_version do
-            key :type, :integer
-          end
-          property :course do
-            key :'$ref', :Course
-          end
+          property :api_version, type: :integer, default: 7
+          property :course, '$ref': :CourseInfo
         end
       end
     end
