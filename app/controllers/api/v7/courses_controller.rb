@@ -8,7 +8,7 @@ class Api::V7::CoursesController < Api::V7::BaseController
 
   swagger_path '/api/v7/org/{organization_id}/courses.json' do
     operation :get do
-      key :description, 'Returns all of the organization\'s courses visible to the user in a json format'
+      key :description, 'Returns the organization\'s courses visible to the user in a json format'
       key :operationId, 'findCourses'
       key :produces, [
         'application/json'

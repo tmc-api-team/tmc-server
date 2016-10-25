@@ -1,7 +1,7 @@
 class Api::V7::SolutionsController < Api::V7::BaseController
   include Swagger::Blocks
 
-  swagger_path '/exercises/{exercise.id}/solution.zip' do
+  swagger_path '/api/v7/exercises/{exercise.id}/solution.zip' do
     operation :get do
       key :description, 'Starts to download the solution in zip format'
       key :operationId, 'downloadSolution'

@@ -33,11 +33,15 @@ class Course < ActiveRecord::Base
     end
     # Should document the structure: {"unlock_conditions": [[{ "name": "trivial", "conditions": [] }]]}
     # property :unlock_conditions, type: :array do
-    #   items type: :array do
-    #     items type: :object do
+    #   items do
+    #     key :type, :array
+    #     items do
+    #       key :type, :object
     #       property :name, type: :string, example: "trivial"
     #       property :conditions, type: :array do
-    #         items type: :string
+    #         items do
+    #           key :type, :string
+    #         end
     #       end
     #     end
     #   end
@@ -70,7 +74,8 @@ class Course < ActiveRecord::Base
     end
     # Should document the structure: {"unlock_conditions": [[{ "name": "trivial", "conditions": [] }]]}
     # property :unlock_conditions, type: :array do
-    #   items type: :array do
+    #   items do
+    #     key :type, :array
     #     items type: :object do
     #       property :name, type: :string, example: "trivial"
     #       property :conditions, type: :array do

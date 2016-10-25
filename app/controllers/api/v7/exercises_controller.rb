@@ -1,7 +1,7 @@
 class Api::V7::ExercisesController < Api::V7::BaseController
   include Swagger::Blocks
 
-  swagger_path '/exercises/{exercise.id}.zip' do
+  swagger_path '/api/v7/exercises/{exercise.id}.zip' do
     operation :get do
       key :description, 'Starts to download the exercise in zip format'
       key :operationId, 'downloadExercise'

@@ -7,7 +7,7 @@ class Api::V7::BaseController < ApplicationController
   #  before_action :doorkeeper_authorize!
   before_action :authenticate_user!
 
-  skip_authorization_check # we use doorkeeper in api, so let's skip cancancan
+  # skip_authorization_check # we use doorkeeper in api, so let's skip cancancan
 
   rescue_from CanCan::AccessDenied do |e|
     render json: errors_json(e.message), status: :forbidden
